@@ -36,3 +36,12 @@
   width:15px;
   height:15px;
 }
+
+#tiles {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+#tiles table {
+  width: 100%
+}

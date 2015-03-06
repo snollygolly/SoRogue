@@ -60,6 +60,7 @@ $( document ).ready(function() {
       offset: 100,
       throttle: 250,
       unload: false,
+      domElement: "tiles",
       callback: function (element, op) {
         //console.log(element, 'has been', op + 'ed')
       }
