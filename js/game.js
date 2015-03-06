@@ -8,7 +8,7 @@ var TOP_OFFSET = 100;
 var MAP_WIDTH = 5;
 var MAP_HEIGHT = 3;
 
-var MAP = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [1,5,5,5,1,1,5,6,5,1,1,5,5,5,1]];
+var MAP = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [0,5,5,5,0,0,5,6,5,0,0,5,5,5,0]];
 var currentMap = [];
 var mapContainer = [];
 
