@@ -6,14 +6,29 @@ var LEFT_OFFSET = 100;
 var TOP_OFFSET = 100;
 
 var MAP_WIDTH = 5;
-var MAP_HEIGHT = 3;
+var MAP_HEIGHT = 10;
 
-var MAP = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [0,5,5,5,0,0,5,6,5,0,0,5,5,5,0]];
+//var MAP = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [0,5,5,5,0,0,5,6,5,0,0,5,5,5,0]];
+var MAP = [];
 var currentMap = [];
 var mapContainer = [];
 
 //the main animator
 var animator;
+
+function makeMap(){
+  var map = [];
+  var offset_y = 57 * 33;
+  var offset_x = 52;
+  var i = 0;
+  while (i < MAP_HEIGHT){
+    console.log("drawing row: " + i);
+    y = (i * 57) + offset_y;
+    map.push(offset_x+y, offset_x+y+1, offset_x+y+2, offset_x+y+3, offset_x+y+4);
+    i++;
+  }
+  MAP.push(map);
+}
 
 function init(){
   Engine.init();
@@ -30,6 +45,8 @@ function init(){
   $(Engine).on("frame", function(){
     animate();
   });
+
+  makeMap();
 }
 
 function handleInput(key){
@@ -99,8 +116,8 @@ function drawMap(m){
 }
 
 function createTile(tileIndex, x, y){
-  console.log("creating tile [index: sheet_" + tileIndex + ".png" + " - " + x + ", " + y + "]");
-  var tile = PIXI.Sprite.fromFrame("sheet_" + tileIndex + ".png");
+  console.log("creating tile [index: t_" + tileIndex + " - " + x + ", " + y + "]");
+  var tile = PIXI.Sprite.fromFrame("t_" + tileIndex);
   tile.width = tile.height = TILE_SIZE;
   tile.position.x = x;
   tile.position.y = y;

@@ -29,7 +29,7 @@ $( document ).ready(function() {
 		//document.body.appendChild(grid);
 		$("#game").append(grid);
 		$("#game").on('dragover', function(event) {event.preventDefault();});
-		var tiles = clickableTiles(200,30,function(el,i){
+		var tiles = clickableTiles(200,55,function(el,i){
 		    console.log("You clicked on tile #:",i);
 			el.className='clicked';
 			if (lastClicked) lastClicked.className='';
