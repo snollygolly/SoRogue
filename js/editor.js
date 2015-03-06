@@ -11,6 +11,7 @@ var selectedTile = 0;
 var locked = false;
 
 var lastClicked;
+var dragging = false;
 
 //var totalTiles = 100;
 var totalTiles = 2122;
@@ -27,7 +28,7 @@ $( document ).ready(function() {
 		});
 		//document.body.appendChild(grid);
 		$("#game").append(grid);
-		$("#game").on('dragstart', function(event) {event.preventDefault();});
+		$("#game").on('dragover', function(event) {event.preventDefault();});
 		var tiles = clickableTiles(200,30,function(el,i){
 		    console.log("You clicked on tile #:",i);
 			el.className='clicked';
@@ -35,6 +36,22 @@ $( document ).ready(function() {
 			lastClicked = el;
 			selectedTile = i;
 		});
+    $(document).on('mousedown', function(event) {
+      console.log("mouse down");
+      event.preventDefault();
+      dragging = true;
+    });
+    $(document).on('mouseup', function(event) {
+      console.log("mouse up");
+      event.preventDefault();
+      dragging = false;
+    });
+    $(document).on('mouseover', function(event) {
+      if (dragging === true){
+        console.log("dragging pos:" + selectedTile);
+        $(event.target).attr("src", getTileArt(selectedTile));
+      }
+    });
 		//document.body.appendChild(grid);
 		$("#tiles").append(tiles);
 		$("#tiles").on('dragstart', function(event) { event.preventDefault();});
@@ -62,9 +79,6 @@ console.log("drawing grid");
             var cell = tr.appendChild(document.createElement('td'));
             //console.log("getTileArt: " + getTileArt(mapData[i]) + " - mapData: " + mapData[i] + " - i: " + i);
             cell.innerHTML = "<img src='" + getTileArt(puzzleData.map[i]) + "'>";
-            $(cell).on('dragstart', function(event) {
-              console.log("drag");
-            });
             cell.addEventListener('click',(function(el,r,c,i){
                 return function(){
                     callback(el,r,c,i);
