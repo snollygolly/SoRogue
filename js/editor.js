@@ -1,3 +1,8 @@
+var blanks = [38,38,169,169,338,338,341,341,341,341,341,387,413,442,468,477,496,496,496,550,606,663,663,670,831,831,1000,1000,1007,1051,1051,1051,1165,1165,1266,1266,1266,1331,1331,1331,1331,1331,1335,1343,1343,1348,1348,1353,1353,1358,1358];
+
+var spriteRows = 200;
+var spriteCols = 57;
+
 var tileData = {};
 var puzzleData = {
   dimensions: {
@@ -14,7 +19,7 @@ var lastClicked;
 var dragging = false;
 
 //var totalTiles = 100;
-var totalTiles = 2122;
+var totalTiles = 1374;
 
 $( document ).ready(function() {
     console.log("DOM loaded");
@@ -29,7 +34,7 @@ $( document ).ready(function() {
 		//document.body.appendChild(grid);
 		$("#game").append(grid);
 		$("#game").on('dragover', function(event) {event.preventDefault();});
-		var tiles = clickableTiles(200,55,function(el,i){
+		var tiles = clickableTiles(spriteRows,spriteCols,function(el,i){
 		    console.log("You clicked on tile #:",i);
 			el.className='clicked';
 			if (lastClicked) lastClicked.className='';
@@ -49,7 +54,9 @@ $( document ).ready(function() {
     $(document).on('mouseover', function(event) {
       if (dragging === true){
         console.log("dragging pos:" + selectedTile);
-        $(event.target).attr("src", getTileArt(selectedTile));
+        if ($(event.target).hasClass("map_tile") === true){
+          $(event.target).attr("src", getTileArt(selectedTile));
+        }
       }
     });
 		//document.body.appendChild(grid);
@@ -79,7 +86,7 @@ console.log("drawing grid");
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
             //console.log("getTileArt: " + getTileArt(mapData[i]) + " - mapData: " + mapData[i] + " - i: " + i);
-            cell.innerHTML = "<img src='" + getTileArt(puzzleData.map[i]) + "'>";
+            cell.innerHTML = "<img class='map_tile' src='" + getTileArt(puzzleData.map[i]) + "'>";
             cell.addEventListener('click',(function(el,r,c,i){
                 return function(){
                     callback(el,r,c,i);
@@ -100,16 +107,27 @@ console.log("drawing tiles");
     	if (i >= tileData.tiles.length){break;}
 	    var tr = grid.appendChild(document.createElement('tr'));
 	    for (var c=0;c<cols;++c){
-            var cell = tr.appendChild(document.createElement('td'));
-            cell.innerHTML = "<img src='/img/loading.gif' data-echo='" + getTileArt(i) + "'>";
-            cell.addEventListener('click',(function(el,i){
-                return function(){
-                    callback(el,i);
-                }
-            })(cell,i),false);
-            i++;
-            if (i >= tileData.tiles.length){break;}
+        var cell = tr.appendChild(document.createElement('td'));
+        if (i == blanks[0]){
+          blanks.shift();
+          index = 0;
+          cell.innerHTML = "<img src='/img/loading.gif' data-echo='" + getTileArt(0) + "'>";
+          cell.addEventListener('click',(function(el,index){
+              return function(){
+                  callback(el,index);
+              }
+          })(cell,index),false);
+        }else{
+          cell.innerHTML = "<img src='/img/loading.gif' data-echo='" + getTileArt(i) + "'>";
+          cell.addEventListener('click',(function(el,i){
+              return function(){
+                  callback(el,i);
+              }
+          })(cell,i),false);
+          i++;
         }
+        if (i >= tileData.tiles.length){break;}
+      }
     }
     return grid;
 }
