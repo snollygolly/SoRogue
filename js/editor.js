@@ -6,8 +6,8 @@ var spriteCols = 57;
 var tileData = {};
 var puzzleData = {
   dimensions: {
-    height: 35,
-    width: 30
+    height: 10,
+    width: 15
   },
   map: []
 };
@@ -61,6 +61,7 @@ $( document ).ready(function() {
       if (dragging === true){
         console.log("dragging pos:" + selectedTile);
         if ($(event.target).parents('#game').length) {
+          puzzleData.map[$(event.target).attr("data-index")] = selectedTile;
           $(event.target).removeClass();
           $(event.target).addClass("t_" + selectedTile);
         }
@@ -98,6 +99,7 @@ console.log("drawing grid");
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
             cell.setAttribute("class", "t_" + puzzleData.map[i]);
+            cell.setAttribute("data-index", i);
             //console.log("getTileArt: " + getTileArt(mapData[i]) + " - mapData: " + mapData[i] + " - i: " + i);
             cell.addEventListener('click',(function(el,r,c,i){
                 return function(){
