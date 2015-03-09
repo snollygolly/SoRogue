@@ -34,6 +34,11 @@ $( document ).ready(function() {
 		//document.body.appendChild(grid);
 		$("#game").append(grid);
 		$("#game").on('dragover', function(event) {event.preventDefault();});
+    $("#submit_map").on("click", function (event){
+      event.preventDefault();
+      mapJSON = formatMap(puzzleData);
+      console.log(mapJSON);
+    });
 		var tiles = clickableTiles(spriteRows,spriteCols,function(el,i){
 		    console.log("You clicked on tile #:",i);
 			el.className='clicked';
@@ -75,6 +80,11 @@ $( document ).ready(function() {
 
 });
 
+function formatMap(data){
+  json = JSON.stringify(data);
+  return json;
+}
+
 
 function clickableGrid( rows, cols, callback ){
 console.log("drawing grid");
@@ -85,8 +95,8 @@ console.log("drawing grid");
         var tr = grid.appendChild(document.createElement('tr'));
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
+            cell.setAttribute("class", "t_" + puzzleData.map[i]);
             //console.log("getTileArt: " + getTileArt(mapData[i]) + " - mapData: " + mapData[i] + " - i: " + i);
-            cell.innerHTML = "<img class='map_tile' src='" + getTileArt(puzzleData.map[i]) + "'>";
             cell.addEventListener('click',(function(el,r,c,i){
                 return function(){
                     callback(el,r,c,i);
@@ -111,14 +121,14 @@ console.log("drawing tiles");
         if (i == blanks[0]){
           blanks.shift();
           index = 0;
-          cell.innerHTML = "<img src='/img/loading.gif' data-echo='" + getTileArt(0) + "'>";
+          cell.setAttribute("class", "t_0");
           cell.addEventListener('click',(function(el,index){
               return function(){
                   callback(el,index);
               }
           })(cell,index),false);
         }else{
-          cell.innerHTML = "<img src='/img/loading.gif' data-echo='" + getTileArt(i) + "'>";
+          cell.setAttribute("class", "t_" + i);
           cell.addEventListener('click',(function(el,i){
               return function(){
                   callback(el,i);

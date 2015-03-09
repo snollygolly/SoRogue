@@ -2,11 +2,11 @@ var FRAME_TO_MS = (1000 / Engine.FPS);
 
 var TILE_SIZE = 30;
 
-var LEFT_OFFSET = 100;
-var TOP_OFFSET = 100;
+var LEFT_OFFSET = 0;
+var TOP_OFFSET = 0;
 
-var MAP_WIDTH = 5;
-var MAP_HEIGHT = 10;
+var MAP_WIDTH;
+var MAP_HEIGHT;
 
 //var MAP = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [0,5,5,5,0,0,5,6,5,0,0,5,5,5,0]];
 var MAP = [];
@@ -15,6 +15,15 @@ var mapContainer = [];
 
 //the main animator
 var animator;
+
+function loadMap(id){
+  $.get("/js/" + id + ".json", function( data ) {
+    MAP[0] = data.map;
+    MAP_WIDTH = data.dimensions.width;
+    MAP_HEIGHT = data.dimensions.height;
+    console.log(data);
+  });
+}
 
 function makeMap(){
   var map = [];
@@ -31,6 +40,7 @@ function makeMap(){
 }
 
 function init(){
+  loadMap("map");
   Engine.init();
 
   //when the engine has loaded all the sprites and is ready...
@@ -45,8 +55,6 @@ function init(){
   $(Engine).on("frame", function(){
     animate();
   });
-
-  makeMap();
 }
 
 function handleInput(key){
