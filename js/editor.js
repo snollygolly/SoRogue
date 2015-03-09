@@ -29,7 +29,8 @@ $( document ).ready(function() {
   		if (locked == true){return;}
 	    console.log("You clicked on item #:",i);
 	    puzzleData.map[i] = selectedTile;
-			el.innerHTML = "<img src='" + getTileArt(selectedTile) + "'>";
+      $(el).removeClass();
+      $(el).addClass("t_" + selectedTile);
 		});
 		//document.body.appendChild(grid);
 		$("#game").append(grid);
@@ -41,8 +42,8 @@ $( document ).ready(function() {
     });
 		var tiles = clickableTiles(spriteRows,spriteCols,function(el,i){
 		    console.log("You clicked on tile #:",i);
-			el.className='clicked';
-			if (lastClicked) lastClicked.className='';
+			$(el).addClass("clicked");
+			if (lastClicked) $(lastClicked).removeClass("clicked");
 			lastClicked = el;
 			selectedTile = i;
 		});
@@ -59,8 +60,9 @@ $( document ).ready(function() {
     $(document).on('mouseover', function(event) {
       if (dragging === true){
         console.log("dragging pos:" + selectedTile);
-        if ($(event.target).hasClass("map_tile") === true){
-          $(event.target).attr("src", getTileArt(selectedTile));
+        if ($(event.target).parents('#game').length) {
+          $(event.target).removeClass();
+          $(event.target).addClass("t_" + selectedTile);
         }
       }
     });
@@ -118,24 +120,13 @@ console.log("drawing tiles");
 	    var tr = grid.appendChild(document.createElement('tr'));
 	    for (var c=0;c<cols;++c){
         var cell = tr.appendChild(document.createElement('td'));
-        if (i == blanks[0]){
-          blanks.shift();
-          index = 0;
-          cell.setAttribute("class", "t_0");
-          cell.addEventListener('click',(function(el,index){
-              return function(){
-                  callback(el,index);
-              }
-          })(cell,index),false);
-        }else{
-          cell.setAttribute("class", "t_" + i);
-          cell.addEventListener('click',(function(el,i){
-              return function(){
-                  callback(el,i);
-              }
-          })(cell,i),false);
-          i++;
-        }
+        cell.setAttribute("class", "t_" + i);
+        cell.addEventListener('click',(function(el,i){
+            return function(){
+                callback(el,i);
+            }
+        })(cell,i),false);
+        i++;
         if (i >= tileData.tiles.length){break;}
       }
     }
