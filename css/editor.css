@@ -1,3 +1,12 @@
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:1em;
+}
+
+.clearfix {
+	overflow: hidden;
+}
+
 .grid {
 	table-layout: fixed;
   width: 100px;
@@ -33,11 +42,6 @@
     font-weight:bold; color:red;
 }
 
-.grid td {
-  width:15px;
-  height:15px;
-}
-
 #tiles {
   height: 30vw;
   overflow-y: scroll;
@@ -51,4 +55,14 @@
 	width: 70vw;
 	height: 70vw;
 	overflow: scroll;
+	float: left;
+}
+
+#layers {
+	float: right;
+	width: 28vw;
+}
+
+#tilecontainer {
+	width: 100%
 }
