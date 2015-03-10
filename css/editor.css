@@ -8,6 +8,9 @@ body {
 }
 
 .grid {
+	position: absolute;
+	top: 0;
+	left: 0;
 	table-layout: fixed;
   width: 100px;
 	border-collapse:collapse;
@@ -63,6 +66,20 @@ body {
 	width: 28vw;
 }
 
-#tilecontainer {
+#tile_container {
 	width: 100%
+}
+
+.layer_a {
+	-webkit-user-select: none; /* Chrome/Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}
+
+.layer_a.clicked {
+	background-color:#cccccc;
 }

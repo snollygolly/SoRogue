@@ -9,6 +9,7 @@ var puzzleData = {
     height: 10,
     width: 10
   },
+  layers: 3,
   map: []
 };
 
@@ -25,15 +26,21 @@ $( document ).ready(function() {
     console.log("DOM loaded");
     tileData.tiles = generateTiles(totalTiles);
     puzzleData.map = generateMap(puzzleData.dimensions.height * puzzleData.dimensions.width);
-		var grid = clickableGrid(puzzleData.dimensions.height,puzzleData.dimensions.width,function(el,row,col,i){
-  		if (locked == true){return;}
-	    console.log("You clicked on item #:",i);
-	    puzzleData.map[i] = selectedTile;
-      $(el).removeClass();
-      $(el).addClass("t_" + selectedTile);
-		});
+    //draw all the layers of the map
+    var z = 0;
+    while (z < puzzleData.layers){
+      var grid = clickableGrid(puzzleData.dimensions.height,puzzleData.dimensions.width, z,function(el,row,col,i){
+    		if (locked == true){return;}
+  	    console.log("You clicked on item #:",i);
+  	    puzzleData.map[i] = selectedTile;
+        $(el).removeClass();
+        $(el).addClass("t_" + selectedTile);
+  		});
+      $("#game").append(grid);
+      z++;
+    }
+    drawLayers(puzzleData.layers);
 		//document.body.appendChild(grid);
-		$("#game").append(grid);
 		$("#game").on('dragover', function(event) {event.preventDefault();});
     $("#submit_map").on("click", function (event){
       event.preventDefault();
@@ -83,16 +90,28 @@ $( document ).ready(function() {
 
 });
 
+function drawLayers(total){
+  while (total > 0){
+    $(".layers_ul").append("<li><a href='#' class='layer_a' data-index='" + (total-1) + "'>" + "Layer " + total + "</a></li>");
+    total--;
+  }
+}
+
+function clearLayers(){
+  $(".layers_ul").html();
+}
+
 function formatMap(data){
   json = JSON.stringify(data);
   return json;
 }
 
-function clickableGrid( rows, cols, callback ){
+function clickableGrid( rows, cols, z, callback ){
 console.log("drawing grid");
     var i=0;
     var grid = document.createElement('table');
     grid.className = 'grid';
+    grid.className += ' z_' + String(z);
     for (var r=0;r<rows;++r){
         var tr = grid.appendChild(document.createElement('tr'));
         for (var c=0;c<cols;++c){
