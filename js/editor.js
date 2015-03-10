@@ -6,8 +6,8 @@ var spriteCols = 57;
 var tileData = {};
 var puzzleData = {
   dimensions: {
-    height: 10,
-    width: 15
+    height: 50,
+    width: 10
   },
   map: []
 };
@@ -19,7 +19,7 @@ var lastClicked;
 var dragging = false;
 
 //var totalTiles = 100;
-var totalTiles = 1374;
+var totalTiles = 1450;
 
 $( document ).ready(function() {
     console.log("DOM loaded");
