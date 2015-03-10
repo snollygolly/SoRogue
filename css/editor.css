@@ -1,6 +1,6 @@
 .grid {
 	table-layout: fixed;
-  width: 100%;
+  width: 100px;
 	border-collapse:collapse;
 	-webkit-touch-callout: none;
     -webkit-user-select: none;

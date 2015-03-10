@@ -6,7 +6,7 @@ var spriteCols = 57;
 var tileData = {};
 var puzzleData = {
   dimensions: {
-    height: 50,
+    height: 10,
     width: 10
   },
   map: []
@@ -87,7 +87,6 @@ function formatMap(data){
   json = JSON.stringify(data);
   return json;
 }
-
 
 function clickableGrid( rows, cols, callback ){
 console.log("drawing grid");
